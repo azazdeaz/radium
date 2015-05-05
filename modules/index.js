@@ -3,4 +3,4 @@
 exports.Style = require('./components/style');
 exports.getState = require('./get-state');
 exports.wrap = require('./wrap');
-exports.mediaQueryWindow = require('./mediaQueryWindow');
+exports.matchMedia = require('./match-media');

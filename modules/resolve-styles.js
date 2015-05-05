@@ -2,6 +2,7 @@
 
 var MouseUpListener = require('./mouse-up-listener');
 var getState = require('./get-state');
+var matchMedia = require('./match-media');
 
 var React = require('react/addons');
 var clone = require('lodash/lang/clone');
@@ -64,7 +65,7 @@ var _resolveMediaQueryStyles = function (component, style) {
     // Create a global MediaQueryList if one doesn't already exist
     var mql = mediaQueryListByQueryString[query];
     if (!mql) {
-      mediaQueryListByQueryString[query] = mql = window.matchMedia(query);
+      mediaQueryListByQueryString[query] = mql = matchMedia(query);
     }
 
     // Keep track of which keys already have listeners
