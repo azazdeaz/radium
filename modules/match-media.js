@@ -1,6 +1,8 @@
 'use strict';
 
-var _matcher = window.matchMedia;
+var isNode = require('detect-node');
+
+var _matcher = !isNode && window.matchMedia;
 
 function matchMedia(query) {
 
@@ -8,7 +10,6 @@ function matchMedia(query) {
 }
 
 matchMedia.replace = function (newMatcher) {
-
   _matcher = newMatcher;
 };
 

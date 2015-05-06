@@ -4,6 +4,7 @@ var pull = require('lodash/array/pull');
 var mapValues = require('lodash/object/mapValues');
 var forOwn = require('lodash/object/forOwn');
 var mediaQuery = require('css-mediaquery');
+var isNode = require('detect-node');
 
 var config = {};
 var createdMqls = {};
@@ -56,6 +57,10 @@ Object.defineProperty(MediaQueryListMock.prototype, 'matches', {
 });
 
 MediaQueryListMock.prototype.addListener = function (listener) {
+
+  if (isNode) {
+    return;
+  }
 
   if (!includes(this._listeners, listener)) {
     this._listeners.push(listener);

@@ -1,5 +1,7 @@
 'use strict';
 
+var isNode = require('detect-node');;
+
 var _callbacks = [];
 var _mouseUpListenerIsActive = false;
 
@@ -14,9 +16,11 @@ var subscribe = function (callback) {
     _callbacks.push(callback);
   }
 
-  if (!_mouseUpListenerIsActive) {
-    window.addEventListener('mouseup', _handleMouseUp);
-    _mouseUpListenerIsActive = true;
+  if (!isNode) {
+    if (!_mouseUpListenerIsActive) {
+      window.addEventListener('mouseup', _handleMouseUp);
+      _mouseUpListenerIsActive = true;
+    }
   }
 
   return {
@@ -24,9 +28,11 @@ var subscribe = function (callback) {
       var index = _callbacks.indexOf(callback);
       _callbacks.splice(index, 1);
 
-      if (_callbacks.length === 0 && _mouseUpListenerIsActive) {
-        window.removeEventListener('mouseup', _handleMouseUp);
-        _mouseUpListenerIsActive = false;
+      if (!isNode) {
+        if (_callbacks.length === 0 && _mouseUpListenerIsActive) {
+          window.removeEventListener('mouseup', _handleMouseUp);
+          _mouseUpListenerIsActive = false;
+        }
       }
     }
   };
