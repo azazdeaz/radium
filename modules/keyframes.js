@@ -3,13 +3,14 @@
 var prefix = require('./prefix');
 
 var kebabCase = require('lodash/string/kebabCase');
+var isNode = require('detect-node');
 
 var msPrefix = /^ms-/;
 var animationIndex = 1;
 var animationStyleSheet = null;
 var keyframesPrefixed = null;
 
-if (document) {
+if (!isNode && document) {
   animationStyleSheet = document.createElement('style');
   document.head.appendChild(animationStyleSheet);
 

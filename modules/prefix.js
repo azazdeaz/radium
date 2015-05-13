@@ -6,6 +6,7 @@
 'use strict';
 
 var kebabCase = require('lodash/string/kebabCase');
+var isNode = require('detect-node');
 
 var jsCssMap = {
     Webkit: '-webkit-',
@@ -16,7 +17,7 @@ var jsCssMap = {
 };
 var testProp = 'Transform';
 
-var domStyle = document.createElement('p').style;
+var domStyle = isNode ? {} : document.createElement('p').style;
 var prefixedPropertyCache = {};
 var prefixedValueCache = {};
 var jsVendorPrefix = '';
