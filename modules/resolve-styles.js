@@ -3,6 +3,7 @@
 var MouseUpListener = require('./mouse-up-listener');
 var getState = require('./get-state');
 var matchMedia = require('./match-media');
+var prefix = require('./prefix');
 
 var React = require('react/addons');
 var clone = require('lodash/lang/clone');
@@ -109,16 +110,26 @@ var resolveStyles = function (component, renderedElement, existingKeyMap) {
   // `this` component. Child nodes in other components will not be here, so each
   // component needs to use Radium.wrap.
   var newChildren = null;
-  if (renderedElement.props.children) {
-    newChildren = React.Children.map(
-      renderedElement.props.children,
-      function (child) {
-        if (React.isValidElement(child)) {
-          return resolveStyles(component, child, existingKeyMap);
+  var oldChildren = renderedElement.props.children;
+  if (oldChildren) {
+    // If a React Element is an only child, don't wrap it in an array for
+    // React.Children.map() for React.Children.only() compatibility.
+    if (React.Children.count(oldChildren) === 1 && oldChildren.type) {
+      var onlyChild = React.Children.only(oldChildren);
+
+      newChildren = resolveStyles(component, onlyChild, existingKeyMap);
+    } else {
+      newChildren = React.Children.map(
+        oldChildren,
+        function (child) {
+          if (React.isValidElement(child)) {
+            return resolveStyles(component, child, existingKeyMap);
+          }
+
+          return child;
         }
-        return child;
-      }
-    );
+      );
+    }
   }
 
   var props = renderedElement.props;
@@ -137,7 +148,8 @@ var resolveStyles = function (component, renderedElement, existingKeyMap) {
     !Object.keys(style).some(_isSpecialKey)
   ) {
     if (style) {
-      newProps.style = style;
+      // Still perform vendor prefixing, though.
+      newProps.style = prefix(style);
       return React.cloneElement(renderedElement, newProps, newChildren);
     } else if (newChildren) {
       return React.cloneElement(renderedElement, {}, newChildren);
@@ -230,7 +242,7 @@ var resolveStyles = function (component, renderedElement, existingKeyMap) {
     );
   }
 
-  newProps.style = newStyle;
+  newProps.style = prefix(newStyle);
 
   return React.cloneElement(renderedElement, newProps, newChildren);
 };

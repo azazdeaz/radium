@@ -1,6 +1,7 @@
-[![Travis Status](https://api.travis-ci.org/FormidableLabs/radium.svg)](https://travis-ci.org/FormidableLabs/radium)
-[![npm package](https://img.shields.io/npm/v/radium.svg)](https://www.npmjs.org/package/radium)
-[![dependency status](https://img.shields.io/david/FormidableLabs/radium.svg)](https://david-dm.org/FormidableLabs/radium)
+[![Travis Status][trav_img]][trav_site]
+[![Coverage Status][cov_img]][cov_site]
+[![NPM Package][npm_img]][npm_site]
+[![Dependency Status][david_img]][david_site]
 
 # Radium
 
@@ -32,6 +33,8 @@ When we say expressive, we mean it: math, concatenation, regex, conditionals, fu
 * Conceptually simple extension of normal inline styles
 * Browser state styles to support `:hover`, `:focus`, and `:active`
 * Media queries
+* Automatic vendor prefixing
+* Keyframes animation helper
 
 ## Docs
 
@@ -61,7 +64,8 @@ var Button = React.createClass(Radium.wrap({
     // the styles in order. We use this feature here to apply the primary
     // or warning styles depending on the value of the `kind` prop. Since its
     // all just JavaScript, you can use whatever logic you want to decide which
-    // styles are applied (props, state, context, etc).
+    // styles are applied (props, state, context, etc). Radium also adds vendor
+    // prefixes automatically where needed.
     return (
       <button
         style={[
@@ -89,7 +93,7 @@ var styles = {
 
     // Adding interactive state couldn't be easier! Add a special key to your
     // style object (:hover, :focus, :active, or @media) with the additional rules.
-    ':hover:': {
+    ':hover': {
       background: color('#0074d9').lighten(0.2).hexString()
     },
 
@@ -122,3 +126,12 @@ npm run examples
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md)
+
+[trav_img]: https://api.travis-ci.org/FormidableLabs/radium.svg
+[trav_site]: https://travis-ci.org/FormidableLabs/radium
+[cov_img]: https://img.shields.io/coveralls/FormidableLabs/radium.svg
+[cov_site]: https://coveralls.io/r/FormidableLabs/radium
+[npm_img]: https://img.shields.io/npm/v/radium.svg
+[npm_site]: https://www.npmjs.org/package/radium
+[david_img]: https://img.shields.io/david/FormidableLabs/radium.svg
+[david_site]: https://david-dm.org/FormidableLabs/radium
