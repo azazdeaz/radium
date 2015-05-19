@@ -57,7 +57,11 @@ var _getPrefixedProperty = function (property) {
   }
 
   // unsupported
-  return prefixedPropertyCache[property] = false;
+ // return prefixedPropertyCache[property] = false;
+ return prefixedPropertyCache[property] = {
+   css: property,
+   js: property
+ };
 };
 
 var _getPrefixedValue = function (property, value) {
